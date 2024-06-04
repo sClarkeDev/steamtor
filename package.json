@@ -1,8 +1,8 @@
 {
   "name": "steamtor",
   "displayName": "SteamTOR",
-  "version": "0.0.3",
-  "description": "Simple steam browser extension",
+  "version": "0.0.4",
+  "description": "Simple gaming browser extension",
   "author": "sClarkeDev",
   "scripts": {
     "dev": "plasmo dev",
