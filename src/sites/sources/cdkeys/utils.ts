@@ -19,7 +19,6 @@ export const isReleased = (): boolean => {
 
   const [day, month, year] = releaseDateStr.split(' ');
 
-  console.log(parseInt(year, 10), monthMap[month.toLowerCase()], parseInt(day, 10));
   const releaseDate = new Date(parseInt(year, 10), monthMap[month] || 0, parseInt(day, 10));
   const currentDate = new Date();
 
