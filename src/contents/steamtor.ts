@@ -31,6 +31,6 @@ import type { PlasmoCSConfig } from 'plasmo';
 })();
 
 export const config: PlasmoCSConfig = {
-  matches: ['https://store.steampowered.com/app/*'],
+  matches: ['https://store.steampowered.com/app/*', 'https://www.cdkeys.com/pc/*'],
   all_frames: true
 };
