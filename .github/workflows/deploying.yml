@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+env:
+  FIREFOX_EXT_ID: ${{ vars.FIREFOX_EXT_ID }}
+
 jobs:
   build:
     name: Build
