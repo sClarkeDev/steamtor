@@ -2,7 +2,7 @@ import { isReleased } from './utils';
 import { makeSite } from '../../base';
 import { NotFoundError } from '../../utils/errors';
 
-import type { GameInfoExtended, Source } from '~scraper/utils/game';
+import type { GameInfoExtended, Source } from '~/scraper/utils/game';
 
 const BASE_URL = 'www.cdkeys.com';
 

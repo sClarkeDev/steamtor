@@ -1,7 +1,7 @@
 import { DOMParser } from 'linkedom';
 
-import { TRUSTED_UPLOADERS } from '~scraper/providers/uploaders';
-import { validateUrl } from '~scraper/utils/valid';
+import { TRUSTED_UPLOADERS } from '~/scraper/providers/uploaders';
+import { validateUrl } from '~/scraper/utils/valid';
 
 import { NotFoundError } from '../../../utils/errors';
 import { type SourcererOutput, makeSourcerer } from '../../base';
@@ -22,7 +22,7 @@ const search = async (ctx: GameScrapeContext): Promise<string> => {
 
   const results: { url: string; seedRatio: number }[] = [];
   const rows = resultsTable.querySelectorAll('tr:not(:first-child)');
-  rows.forEach((row) => {
+  rows.forEach((row: Element) => {
     const nameLinks = row.querySelectorAll('td.name a');
     const seeders = row.querySelector('.seeds')?.textContent;
     const leachers = row.querySelector('.leeches')?.textContent;
@@ -40,7 +40,7 @@ const search = async (ctx: GameScrapeContext): Promise<string> => {
 
   if (!results.length) throw new NotFoundError();
 
-  const bestTorrent = results.reduce((max, torrent) => (torrent.seedRatio > max.seedRatio ? torrent : max), results[0]);
+  const bestTorrent = results.reduce((max, torrent) => (torrent.seedRatio > max.seedRatio ? torrent : max));
 
   return bestTorrent.url;
 };

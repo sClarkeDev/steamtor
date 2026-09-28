@@ -1,6 +1,6 @@
 import { DOMParser } from 'linkedom';
 
-import { TRUSTED_UPLOADERS } from '~scraper/providers/uploaders';
+import { TRUSTED_UPLOADERS } from '~/scraper/providers/uploaders';
 
 import { isSubstringInArray } from '../../../utils/compare';
 import { NotFoundError } from '../../../utils/errors';
@@ -21,7 +21,7 @@ const extractResults = (body: string): ScrapeResult[] => {
   const results: ScrapeResult[] = [];
   const rows = resultsTable.querySelectorAll('tr:not(:first-child)');
 
-  rows.forEach((row) => {
+  rows.forEach((row: Element) => {
     const gameName = row.querySelector('td > a:nth-child(3)')?.textContent;
     const magnet = row.querySelector('td > a:nth-child(2)')?.getAttribute('href');
     const torrent = row.querySelector('td > a.downgif')?.getAttribute('href');
@@ -40,7 +40,7 @@ const extractResults = (body: string): ScrapeResult[] => {
 const findBestTorrent = (results: ScrapeResult[]): ScrapeResult => {
   if (results.length === 0) throw new NotFoundError('No valid torrents found.');
 
-  return results.reduce((max, torrent) => (torrent.seedRatio > max.seedRatio ? torrent : max), results[0]);
+  return results.reduce((max, torrent) => (torrent.seedRatio > max.seedRatio ? torrent : max));
 };
 
 const scrape = async (ctx: GameScrapeContext): Promise<SourcererOutput> => {

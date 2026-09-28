@@ -1,6 +1,6 @@
 import { gatherAllSites } from './all';
 
-import type { GameInfoExtended, Source } from '~scraper/utils/game';
+import type { GameInfoExtended, Source } from '~/scraper/utils/game';
 
 type SiteScraper = {
   getGameName: () => string;

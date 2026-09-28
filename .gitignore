@@ -17,7 +17,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
 
 # local env files
 .env*.local
@@ -26,8 +25,11 @@ out/
 build/
 dist/
 
-# plasmo
-.plasmo
 
 # typescript
 .tsbuildinfo
+
+# wxt
+.output
+.wxt
+web-ext.config.ts

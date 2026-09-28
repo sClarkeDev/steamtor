@@ -1,4 +1,4 @@
-import type { GameInfoExtended, Source } from '~scraper/utils/game';
+import type { GameInfoExtended, Source } from '~/scraper/utils/game';
 
 export type SiteOptions = {
   id: string;

@@ -1,6 +1,6 @@
 import { DOMParser } from 'linkedom';
 
-import { compareNames } from '~scraper/utils/compare';
+import { compareNames } from '~/scraper/utils/compare';
 
 import { NotFoundError } from '../../../utils/errors';
 import { type SourcererOutput, makeSourcerer } from '../../base';
@@ -21,7 +21,7 @@ const search = async (ctx: GameScrapeContext): Promise<string> => {
 
   let result = null;
 
-  results.forEach((r) => {
+  results.forEach((r: Element) => {
     const title = r.querySelector('.entry-title > a');
     const name = title?.textContent as string;
     const path = title?.getAttribute('href') as string;

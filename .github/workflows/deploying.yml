@@ -9,103 +9,48 @@ env:
   FIREFOX_EXT_ID: ${{ vars.FIREFOX_EXT_ID }}
 
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-                  
-    - uses: pnpm/action-setup@v2
-      with:
-        version: 8
-    
-    - name: Install Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20
-        cache: 'pnpm'
-
-    - name: Install pnpm packages
-      run: pnpm install
-    
-    - name: Build chrome project
-      run: pnpm run build
-    
-    - name: Package for chrome
-      run: pnpm run package
-    
-    - name: Build firefox project
-      run: pnpm run build:firefox
-    
-    - name: Package for firefox
-      run: pnpm run package:firefox
-
-    - name: Upload chrome package
-      uses: actions/upload-artifact@v4
-      with:
-        name: chrome
-        path: ./build/chrome-mv3-prod.zip
-    
-    - name: Upload firefox package
-      uses: actions/upload-artifact@v4
-      with:
-        name: firefox
-        path: ./build/firefox-mv3-prod.zip
-
   release:
-    name: Release
-    needs: build
+    name: Build & Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Download Chrome artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: chrome
-        path: ./chrome
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
 
-    - name: Download Firefox artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: firefox
-        path: ./firefox
+      - name: Install npm packages
+        run: npm ci
 
-    - name: Get version
-      id: package-version
-      uses: martinbeentjes/npm-get-version-action@main
+      - name: Lint & type check
+        run: npm run lint && npm run compile
 
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ steps.package-version.outputs.current-version }}
-        release_name: v${{ steps.package-version.outputs.current-version }}
-        draft: false
-        prerelease: false
+      - name: Package for chrome
+        run: npm run zip
 
-    - name: Upload Chrome release
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./chrome/chrome-mv3-prod.zip
-        asset_name: steamtor.chrome.zip
-        asset_content_type: application/zip
+      - name: Package for firefox
+        run: npm run zip:firefox
 
-    - name: Upload Firefox release
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./firefox/firefox-mv3-prod.zip
-        asset_name: steamtor.firefox.xpi
-        asset_content_type: application/x-xpinstall.xpi
+      - name: Get version
+        id: version
+        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Rename release assets
+        run: |
+          cp .output/steamtor-${{ steps.version.outputs.version }}-chrome.zip steamtor.chrome.zip
+          cp .output/steamtor-${{ steps.version.outputs.version }}-firefox.zip steamtor.firefox.xpi
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.version }}
+          name: v${{ steps.version.outputs.version }}
+          files: |
+            steamtor.chrome.zip
+            steamtor.firefox.xpi

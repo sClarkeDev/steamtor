@@ -1,4 +1,4 @@
-import type { UseableFetcher } from '~scraper/fetchers/types';
+import type { UseableFetcher } from '~/scraper/fetchers/types';
 
 export const validateUrl = async (url: string, fetcher: UseableFetcher): Promise<string | null> => {
   const result = await fetcher(url);

@@ -18,8 +18,9 @@ export const isReleased = (): boolean => {
   if (!releaseDateStr) return false;
 
   const [day, month, year] = releaseDateStr.split(' ');
+  if (!day || !month || !year) return false;
 
-  const releaseDate = new Date(parseInt(year, 10), monthMap[month] || 0, parseInt(day, 10));
+  const releaseDate = new Date(parseInt(year, 10), monthMap[month] ?? 0, parseInt(day, 10));
   const currentDate = new Date();
 
   return releaseDate <= currentDate;
