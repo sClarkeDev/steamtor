@@ -1,7 +1,7 @@
 {
   "name": "steamtor",
   "displayName": "SteamTOR",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Simple gaming browser extension",
   "author": "sClarkeDev",
   "type": "module",
