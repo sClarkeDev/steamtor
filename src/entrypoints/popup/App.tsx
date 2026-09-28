@@ -1,10 +1,8 @@
-import { useStorage } from '@plasmohq/storage/hook';
+import { useStorageItem } from '~/hooks/useStorageItem';
+import { proxyItem } from '~/storage';
 
-import './popup.css';
-import { PROXY_URL } from '~constants';
-
-function Popup() {
-  const [proxy, setProxy] = useStorage('proxy', PROXY_URL);
+function App() {
+  const [proxy, setProxy] = useStorageItem(proxyItem);
 
   return (
     <div className="container">
@@ -22,4 +20,4 @@ function Popup() {
   );
 }
 
-export default Popup;
+export default App;

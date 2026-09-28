@@ -1,5 +1,5 @@
 import type { GameScrapeContext } from '../utils/context';
-import type { Source } from '~scraper/utils/game';
+import type { Source } from '~/scraper/utils/game';
 
 export type SourcererOutput = Source;
 

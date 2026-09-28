@@ -1,4 +1,4 @@
-import { hasDuplicates } from '~utils/predicates';
+import { hasDuplicates } from '~/utils/predicates';
 
 import type { Site } from './base';
 
